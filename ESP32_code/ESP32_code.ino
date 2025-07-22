@@ -125,6 +125,4 @@ void loop() {
 
     lastSampleTime = now;
   }
-
-  
 }
