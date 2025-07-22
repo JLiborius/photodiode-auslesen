@@ -4,7 +4,11 @@
 
 #define USE_MQTT
 #define MAX_VOLTAGE_PHOTODIODE 4.0
-#define INPUT_PIN 34
+#define INPUT_PIN_1 34
+#define INPUT_PIN_2 35
+#define INPUT_PIN_3 32
+#define INPUT_PIN_4 33
+
 #define SAMPLE_TIME 3000 // Every X ms one sample
 
 #ifdef USE_MQTT
@@ -67,7 +71,6 @@ float readVoltage(int input_pin){
   return voltage;
 }
 
-unsigned long startTime;
 
 void setup() {
   Serial.begin(115200);
@@ -75,35 +78,53 @@ void setup() {
   #ifdef USE_MQTT
   connectToWifi();
   #endif
-  startTime = millis();
 }
 
+unsigned long lastSampleTime = 0;
+
 void loop() {
-  #ifdef USE_MQTT
-  if (WiFi.status() != WL_CONNECTED) {
-    Serial.println("WiFi connection lost. Reconnecting...");
-    connectToWifi();
+  unsigned long now = millis();
+  if (now - lastSampleTime >= SAMPLE_TIME){
+    #ifdef USE_MQTT
+    if (WiFi.status() != WL_CONNECTED) {
+      Serial.println("WiFi connection lost. Reconnecting...");
+      connectToWifi();
+    }
+    if (!client.connected()) {
+      reconnect();
+    }
+    client.loop();
+    #endif
+
+    float voltage_1 = readVoltage(INPUT_PIN_1);
+    float voltage_2 = readVoltage(INPUT_PIN_2);
+    float voltage_3 = readVoltage(INPUT_PIN_3);
+    float voltage_4 = readVoltage(INPUT_PIN_4);
+
+    Serial.print(lastSampleTime);
+    Serial.print(",");
+    Serial.print(voltage_1);
+    Serial.print(",");
+    Serial.print(voltage_2);
+    Serial.print(",");
+    Serial.print(voltage_3);
+    Serial.print(",");
+    Serial.println(voltage_4);
+
+    #ifdef USE_MQTT
+    StaticJsonDocument<200> doc;
+    doc["Voltage_Photodiode_1"] = voltage_1;
+    doc["Voltage_Photodiode_2"] = voltage_2;
+    doc["Voltage_Photodiode_3"] = voltage_3;
+    doc["Voltage_Photodiode_4"] = voltage_4;
+
+    String output; 
+    serializeJson(doc, output);
+    client.publish("lab/petzvalstrasse/sensor/photodiode_malte", output.c_str());
+    #endif
+
+    lastSampleTime = now;
   }
-  if (!client.connected()) {
-    reconnect();
-  }
-  client.loop();
-  #endif
 
-  unsigned long currentTime = millis() - startTime;
-  float voltage = readVoltage(INPUT_PIN);
-
-  Serial.print(currentTime);
-  Serial.print(",");
-  Serial.println(voltage);
-
-  #ifdef USE_MQTT
-  StaticJsonDocument<200> doc;
-  doc["Voltage_Photodiode_Malte"] = voltage
-  String output; 
-  serializeJson(doc, output);
-  client.publish("lab/petzvalstrasse/sensor/photodiode_malte", output.c_str());
-  #endif
-
-  delay(SAMPLE_TIME);
+  
 }
