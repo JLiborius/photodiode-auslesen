@@ -20,6 +20,7 @@ This project measures the voltage from a photodiode using an ESP32, sends the re
 - Photodiode sensor (up to 4V output)
 - Computer with Python 3 (and [pyserial](https://pypi.org/project/pyserial/))
 - WiFi network (only used for Grafana dashboard)
+- install driver for USB tu UART Bridge (CP210x_Universal_Windows_Driver) Geräte-Manager --> Treiber hinzufügen
 
 ---
 
