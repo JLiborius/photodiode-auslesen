@@ -92,7 +92,7 @@ pip install -r requirements.txt
 
 ### 2. Running the Script
 1. Connect your microcontroller/device to your computer via USB.
-2. Run the script: `python serial_logger.py`
+2. Run the script: `python serial_logger.py` or run the .exe in dst folder.
 3. Choose the correct port (e.g., COM4 on Windows or /dev/ttyUSB0 on Linux/macOS) when prompted.
 4. Enter a file name for the CSV output.
 5. Logging will begin. Press Ctrl+C to stop and close the log safely.
