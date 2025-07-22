@@ -63,7 +63,7 @@ To build:
 
 # Serial Data Logger to CSV
 
-This simple Python script reads data from a serial port, displays it in real-time, and saves it into a CSV file. It is especially useful for logging data streamed from microcontrollers (such as Arduino, ESP32, etc.) that output measurements in `time_ms,voltage` format.
+This Python script reads data from a serial port, displays it in real-time, and saves it into a CSV file.
 
 ---
 
@@ -79,23 +79,23 @@ This simple Python script reads data from a serial port, displays it in real-tim
 ## Usage
 
 ### 1. Requirements
-
+- use the .exe or install requirement when you want to run the .py. both is possible!
 - Python 3.x
 - [`pyserial`](https://pypi.org/project/pyserial/)
+- the packages used for this script are listed in `requirements.txt`
 
-Install pyserial via pip if not already present:
+Install requirements with:
 
 ```sh
-pip install pyserial
+pip install -r requirements.txt
 ```
 
 ### 2. Running the Script
 1. Connect your microcontroller/device to your computer via USB.
-2. Make sure your device is sending data over the serial port in the expected format (e.g., time_ms,voltage).
-3. Run the script: `python serial_logger.py`
-4. Choose the correct port (e.g., COM4 on Windows or /dev/ttyUSB0 on Linux/macOS) when prompted.
-5. Enter a file name for the CSV output.
-6. Logging will begin. Press Ctrl+C to stop and close the log safely.
+2. Run the script: `python serial_logger.py`
+3. Choose the correct port (e.g., COM4 on Windows or /dev/ttyUSB0 on Linux/macOS) when prompted.
+4. Enter a file name for the CSV output.
+5. Logging will begin. Press Ctrl+C to stop and close the log safely.
 
 ```cmd
 Detected ports:
