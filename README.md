@@ -47,13 +47,15 @@ To build:
 
 ## Example Data
 
-# CSV/Serial Output
+### CSV/Serial Output
+```cmd
 `time_ms,voltage`
 `1000, 1.23`
 `4000, 1.33`
 ...
+```
 
-# MQTT JSON Payload
+### MQTT JSON Payload
 `{"Voltage_Photodiode_Malte": 1.31}`
 (MQTT topic: `lab/petzvalstrasse/sensor/photodiode_malte`)
 
